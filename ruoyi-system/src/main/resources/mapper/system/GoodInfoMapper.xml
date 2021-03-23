@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.GoodInfoMapper">
+    
+    <resultMap type="GoodInfo" id="GoodInfoResult">
+        <result property="id"    column="id"    />
+        <result property="storageNo"    column="storage_no"    />
+        <result property="shelfNo"    column="shelf_no"    />
+        <result property="batchNo"    column="batch_no"    />
+        <result property="orderNo"    column="order_no"    />
+        <result property="goodNo"    column="good_no"    />
+        <result property="goodName"    column="good_name"    />
+        <result property="shelfPosition"    column="shelf_position"    />
+        <result property="inventoryNum"    column="inventory_num"    />
+        <result property="defectNum"    column="defect_num"    />
+        <result property="frozenNum"    column="frozen_num"    />
+        <result property="inventoryType"    column="inventory_type"    />
+        <result property="uuid"    column="uuid"    />
+        <result property="productTime"    column="product_time"    />
+        <result property="expiryTime"    column="expiry_time"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createUser"    column="create_user"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUser"    column="update_user"    />
+        <result property="yn"    column="yn"    />
+        <result property="ts"    column="ts"    />
+    </resultMap>
+
+    <sql id="selectGoodInfoVo">
+        select id, storage_no, shelf_no, batch_no, order_no, good_no, good_name, shelf_position, inventory_num, defect_num, frozen_num, inventory_type, uuid, product_time, expiry_time, create_time, create_user, update_time, update_user, yn, ts from good_info
+    </sql>
+
+    <select id="selectGoodInfoList" parameterType="GoodInfo" resultMap="GoodInfoResult">
+        <include refid="selectGoodInfoVo"/>
+        <where>  
+            <if test="storageNo != null  and storageNo != ''"> and storage_no = #{storageNo}</if>
+            <if test="shelfNo != null  and shelfNo != ''"> and shelf_no = #{shelfNo}</if>
+            <if test="batchNo != null  and batchNo != ''"> and batch_no = #{batchNo}</if>
+            <if test="orderNo != null  and orderNo != ''"> and order_no = #{orderNo}</if>
+            <if test="goodNo != null  and goodNo != ''"> and good_no = #{goodNo}</if>
+            <if test="goodName != null  and goodName != ''"> and good_name like concat('%', #{goodName}, '%')</if>
+            <if test="inventoryType != null  and inventoryType != ''"> and inventory_type = #{inventoryType}</if>
+            <if test="uuid != null  and uuid != ''"> and uuid = #{uuid}</if>
+            <if test="expiryTime != null "> and expiry_time >= #{expiryTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectGoodInfoById" parameterType="Long" resultMap="GoodInfoResult">
+        <include refid="selectGoodInfoVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertGoodInfo" parameterType="GoodInfo">
+        insert into good_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="storageNo != null and storageNo != ''">storage_no,</if>
+            <if test="shelfNo != null and shelfNo != ''">shelf_no,</if>
+            <if test="batchNo != null and batchNo != ''">batch_no,</if>
+            <if test="orderNo != null and orderNo != ''">order_no,</if>
+            <if test="goodNo != null and goodNo != ''">good_no,</if>
+            <if test="goodName != null and goodName != ''">good_name,</if>
+            <if test="shelfPosition != null and shelfPosition != ''">shelf_position,</if>
+            <if test="inventoryNum != null">inventory_num,</if>
+            <if test="defectNum != null">defect_num,</if>
+            <if test="frozenNum != null">frozen_num,</if>
+            <if test="inventoryType != null and inventoryType != ''">inventory_type,</if>
+            <if test="uuid != null and uuid != ''">uuid,</if>
+            <if test="productTime != null">product_time,</if>
+            <if test="expiryTime != null">expiry_time,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="yn != null">yn,</if>
+            <if test="ts != null">ts,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="storageNo != null and storageNo != ''">#{storageNo},</if>
+            <if test="shelfNo != null and shelfNo != ''">#{shelfNo},</if>
+            <if test="batchNo != null and batchNo != ''">#{batchNo},</if>
+            <if test="orderNo != null and orderNo != ''">#{orderNo},</if>
+            <if test="goodNo != null and goodNo != ''">#{goodNo},</if>
+            <if test="goodName != null and goodName != ''">#{goodName},</if>
+            <if test="shelfPosition != null and shelfPosition != ''">#{shelfPosition},</if>
+            <if test="inventoryNum != null">#{inventoryNum},</if>
+            <if test="defectNum != null">#{defectNum},</if>
+            <if test="frozenNum != null">#{frozenNum},</if>
+            <if test="inventoryType != null and inventoryType != ''">#{inventoryType},</if>
+            <if test="uuid != null and uuid != ''">#{uuid},</if>
+            <if test="productTime != null">#{productTime},</if>
+            <if test="expiryTime != null">#{expiryTime},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createUser != null">#{createUser},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUser != null">#{updateUser},</if>
+            <if test="yn != null">#{yn},</if>
+            <if test="ts != null">#{ts},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGoodInfo" parameterType="GoodInfo">
+        update good_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="storageNo != null and storageNo != ''">storage_no = #{storageNo},</if>
+            <if test="shelfNo != null and shelfNo != ''">shelf_no = #{shelfNo},</if>
+            <if test="batchNo != null and batchNo != ''">batch_no = #{batchNo},</if>
+            <if test="orderNo != null and orderNo != ''">order_no = #{orderNo},</if>
+            <if test="goodNo != null and goodNo != ''">good_no = #{goodNo},</if>
+            <if test="goodName != null and goodName != ''">good_name = #{goodName},</if>
+            <if test="shelfPosition != null and shelfPosition != ''">shelf_position = #{shelfPosition},</if>
+            <if test="inventoryNum != null">inventory_num = #{inventoryNum},</if>
+            <if test="defectNum != null">defect_num = #{defectNum},</if>
+            <if test="frozenNum != null">frozen_num = #{frozenNum},</if>
+            <if test="inventoryType != null and inventoryType != ''">inventory_type = #{inventoryType},</if>
+            <if test="uuid != null and uuid != ''">uuid = #{uuid},</if>
+            <if test="productTime != null">product_time = #{productTime},</if>
+            <if test="expiryTime != null">expiry_time = #{expiryTime},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createUser != null">create_user = #{createUser},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUser != null">update_user = #{updateUser},</if>
+            <if test="yn != null">yn = #{yn},</if>
+            <if test="ts != null">ts = #{ts},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteGoodInfoById" parameterType="Long">
+        delete from good_info where id = #{id}
+    </delete>
+
+    <delete id="deleteGoodInfoByIds" parameterType="String">
+        delete from good_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

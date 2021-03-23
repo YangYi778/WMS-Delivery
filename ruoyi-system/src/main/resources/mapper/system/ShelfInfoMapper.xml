@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ShelfInfoMapper">
+    
+    <resultMap type="ShelfInfo" id="ShelfInfoResult">
+        <result property="id"    column="id"    />
+        <result property="storageNo"    column="storage_no"    />
+        <result property="shelfNo"    column="shelf_no"    />
+        <result property="shelfName"    column="shelf_name"    />
+        <result property="shelfType"    column="shelf_type"    />
+        <result property="shelfStatus"    column="shelf_status"    />
+        <result property="shelfRow"    column="shelf_row"    />
+        <result property="shelfCol"    column="shelf_col"    />
+        <result property="shelfSpec"    column="shelf_spec"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createUser"    column="create_user"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUser"    column="update_user"    />
+        <result property="yn"    column="yn"    />
+        <result property="ts"    column="ts"    />
+    </resultMap>
+
+    <sql id="selectShelfInfoVo">
+        select id, storage_no, shelf_no, shelf_name, shelf_type, shelf_status, shelf_row, shelf_col, shelf_spec, create_time, create_user, update_time, update_user, yn, ts from shelf_info
+    </sql>
+
+    <select id="selectShelfInfoList" parameterType="ShelfInfo" resultMap="ShelfInfoResult">
+        <include refid="selectShelfInfoVo"/>
+        <where>  
+            <if test="storageNo != null  and storageNo != ''"> and storage_no = #{storageNo}</if>
+            <if test="shelfNo != null  and shelfNo != ''"> and shelf_no = #{shelfNo}</if>
+            <if test="shelfName != null  and shelfName != ''"> and shelf_name like concat('%', #{shelfName}, '%')</if>
+            <if test="shelfType != null "> and shelf_type = #{shelfType}</if>
+            <if test="shelfStatus != null "> and shelf_status = #{shelfStatus}</if>
+        </where>
+    </select>
+    
+    <select id="selectShelfInfoById" parameterType="Long" resultMap="ShelfInfoResult">
+        <include refid="selectShelfInfoVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertShelfInfo" parameterType="ShelfInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into shelf_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="storageNo != null and storageNo != ''">storage_no,</if>
+            <if test="shelfNo != null and shelfNo != ''">shelf_no,</if>
+            <if test="shelfName != null and shelfName != ''">shelf_name,</if>
+            <if test="shelfType != null">shelf_type,</if>
+            <if test="shelfStatus != null">shelf_status,</if>
+            <if test="shelfRow != null">shelf_row,</if>
+            <if test="shelfCol != null">shelf_col,</if>
+            <if test="shelfSpec != null and shelfSpec != ''">shelf_spec,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="yn != null">yn,</if>
+            <if test="ts != null">ts,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="storageNo != null and storageNo != ''">#{storageNo},</if>
+            <if test="shelfNo != null and shelfNo != ''">#{shelfNo},</if>
+            <if test="shelfName != null and shelfName != ''">#{shelfName},</if>
+            <if test="shelfType != null">#{shelfType},</if>
+            <if test="shelfStatus != null">#{shelfStatus},</if>
+            <if test="shelfRow != null">#{shelfRow},</if>
+            <if test="shelfCol != null">#{shelfCol},</if>
+            <if test="shelfSpec != null and shelfSpec != ''">#{shelfSpec},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createUser != null">#{createUser},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUser != null">#{updateUser},</if>
+            <if test="yn != null">#{yn},</if>
+            <if test="ts != null">#{ts},</if>
+         </trim>
+    </insert>
+
+    <update id="updateShelfInfo" parameterType="ShelfInfo">
+        update shelf_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="storageNo != null and storageNo != ''">storage_no = #{storageNo},</if>
+            <if test="shelfNo != null and shelfNo != ''">shelf_no = #{shelfNo},</if>
+            <if test="shelfName != null and shelfName != ''">shelf_name = #{shelfName},</if>
+            <if test="shelfType != null">shelf_type = #{shelfType},</if>
+            <if test="shelfStatus != null">shelf_status = #{shelfStatus},</if>
+            <if test="shelfRow != null">shelf_row = #{shelfRow},</if>
+            <if test="shelfCol != null">shelf_col = #{shelfCol},</if>
+            <if test="shelfSpec != null and shelfSpec != ''">shelf_spec = #{shelfSpec},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createUser != null">create_user = #{createUser},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUser != null">update_user = #{updateUser},</if>
+            <if test="yn != null">yn = #{yn},</if>
+            <if test="ts != null">ts = #{ts},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteShelfInfoById" parameterType="Long">
+        delete from shelf_info where id = #{id}
+    </delete>
+
+    <delete id="deleteShelfInfoByIds" parameterType="String">
+        delete from shelf_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
