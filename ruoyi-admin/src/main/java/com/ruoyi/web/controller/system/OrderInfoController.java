@@ -3,14 +3,7 @@ package com.ruoyi.web.controller.system;
 import java.util.List;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
@@ -23,8 +16,8 @@ import com.ruoyi.common.core.page.TableDataInfo;
 /**
  * 订单管理Controller
  * 
- * @author ruoyi
- * @date 2021-03-22
+ * @author HelloWorld
+ * @date 2021-03-25
  */
 @RestController
 @RequestMapping("/system/orderMenu")
@@ -99,5 +92,25 @@ public class OrderInfoController extends BaseController
     public AjaxResult remove(@PathVariable Long[] ids)
     {
         return toAjax(orderInfoService.deleteOrderInfoByIds(ids));
+    }
+
+    /**
+     * 订单受理
+     */
+    @PreAuthorize("@ss.hasPermi('system:orderMenu:confirm')")
+    @Log(title = "订单管理", businessType = BusinessType.OTHER)
+    @PutMapping("/{orders}")
+    public AjaxResult orderConfirm(@PathVariable String[] orders)
+    {
+        System.out.println("orders ----->> " + orders);
+        return toAjax(orderInfoService.orderConfirm(orders));
+    }
+
+    @PreAuthorize("@ss.hasPermi('system:orderMenu:generate')")
+    @Log(title = "绑定批次", businessType = BusinessType.OTHER)
+    @PutMapping("/generate/{orders}")
+    public AjaxResult orderBatchGenerate(@PathVariable String[] orders){
+        System.out.println("orders ----->>" + orders);
+        return toAjax(orderInfoService.orderBatchGenerate(orders));
     }
 }

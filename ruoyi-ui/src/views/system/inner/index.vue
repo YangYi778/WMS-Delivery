@@ -30,7 +30,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="订单状态" prop="orderStatus">
-        <el-select v-model="queryParams.orderStatus" placeholder="请选择订单状态" clearable size="small">
+        <el-select v-model="queryParams.orderStatus" placeholder="请选择订单状态" hidden clearable size="small">
           <el-option
             v-for="dict in orderStatusOptions"
             :key="dict.dictValue"

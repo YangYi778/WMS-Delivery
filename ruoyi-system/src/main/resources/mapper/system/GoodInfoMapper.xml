@@ -13,6 +13,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="goodNo"    column="good_no"    />
         <result property="goodName"    column="good_name"    />
         <result property="shelfPosition"    column="shelf_position"    />
+        <result property="goodType"    column="good_type"    />
         <result property="inventoryNum"    column="inventory_num"    />
         <result property="defectNum"    column="defect_num"    />
         <result property="frozenNum"    column="frozen_num"    />
@@ -26,10 +27,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateUser"    column="update_user"    />
         <result property="yn"    column="yn"    />
         <result property="ts"    column="ts"    />
+        <result property="taskNo"    column="task_no"    />
     </resultMap>
 
     <sql id="selectGoodInfoVo">
-        select id, storage_no, shelf_no, batch_no, order_no, good_no, good_name, shelf_position, inventory_num, defect_num, frozen_num, inventory_type, uuid, product_time, expiry_time, create_time, create_user, update_time, update_user, yn, ts from good_info
+        select id, storage_no, shelf_no, batch_no, order_no, good_no, good_name, shelf_position, good_type, inventory_num, defect_num, frozen_num, inventory_type, uuid, product_time, expiry_time, create_time, create_user, update_time, update_user, yn, ts, task_no from good_info
     </sql>
 
     <select id="selectGoodInfoList" parameterType="GoodInfo" resultMap="GoodInfoResult">
@@ -41,9 +43,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="orderNo != null  and orderNo != ''"> and order_no = #{orderNo}</if>
             <if test="goodNo != null  and goodNo != ''"> and good_no = #{goodNo}</if>
             <if test="goodName != null  and goodName != ''"> and good_name like concat('%', #{goodName}, '%')</if>
+            <if test="goodType != null  and goodType != ''"> and good_type = #{goodType}</if>
             <if test="inventoryType != null  and inventoryType != ''"> and inventory_type = #{inventoryType}</if>
             <if test="uuid != null  and uuid != ''"> and uuid = #{uuid}</if>
-            <if test="expiryTime != null "> and expiry_time >= #{expiryTime}</if>
+            <if test="expiryTime != null "> and expiry_time &gt;= #{expiryTime}</if>
+            <if test="taskNo != null  and taskNo != ''"> and task_no = #{taskNo}</if>
         </where>
     </select>
     
@@ -63,6 +67,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="goodNo != null and goodNo != ''">good_no,</if>
             <if test="goodName != null and goodName != ''">good_name,</if>
             <if test="shelfPosition != null and shelfPosition != ''">shelf_position,</if>
+            <if test="goodType != null and goodType != ''">good_type,</if>
             <if test="inventoryNum != null">inventory_num,</if>
             <if test="defectNum != null">defect_num,</if>
             <if test="frozenNum != null">frozen_num,</if>
@@ -76,6 +81,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateUser != null">update_user,</if>
             <if test="yn != null">yn,</if>
             <if test="ts != null">ts,</if>
+            <if test="taskNo != null and taskNo != ''">task_no,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">#{id},</if>
@@ -86,6 +92,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="goodNo != null and goodNo != ''">#{goodNo},</if>
             <if test="goodName != null and goodName != ''">#{goodName},</if>
             <if test="shelfPosition != null and shelfPosition != ''">#{shelfPosition},</if>
+            <if test="goodType != null and goodType != ''">#{goodType},</if>
             <if test="inventoryNum != null">#{inventoryNum},</if>
             <if test="defectNum != null">#{defectNum},</if>
             <if test="frozenNum != null">#{frozenNum},</if>
@@ -99,6 +106,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateUser != null">#{updateUser},</if>
             <if test="yn != null">#{yn},</if>
             <if test="ts != null">#{ts},</if>
+            <if test="taskNo != null and taskNo != ''">#{taskNo},</if>
          </trim>
     </insert>
 
@@ -112,6 +120,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="goodNo != null and goodNo != ''">good_no = #{goodNo},</if>
             <if test="goodName != null and goodName != ''">good_name = #{goodName},</if>
             <if test="shelfPosition != null and shelfPosition != ''">shelf_position = #{shelfPosition},</if>
+            <if test="goodType != null and goodType != ''">good_type = #{goodType},</if>
             <if test="inventoryNum != null">inventory_num = #{inventoryNum},</if>
             <if test="defectNum != null">defect_num = #{defectNum},</if>
             <if test="frozenNum != null">frozen_num = #{frozenNum},</if>
@@ -125,6 +134,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateUser != null">update_user = #{updateUser},</if>
             <if test="yn != null">yn = #{yn},</if>
             <if test="ts != null">ts = #{ts},</if>
+            <if test="taskNo != null and taskNo != ''">task_no = #{taskNo},</if>
         </trim>
         where id = #{id}
     </update>

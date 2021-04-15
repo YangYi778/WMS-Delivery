@@ -10,35 +10,104 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="库区名称" prop="storageName">
+      <el-form-item label="库位编号" prop="shelfNo">
         <el-input
-          v-model="queryParams.storageName"
-          placeholder="请输入库区名称"
+          v-model="queryParams.shelfNo"
+          placeholder="请输入库位编号"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="库区类型" prop="storageType">
-        <el-select v-model="queryParams.storageType" placeholder="请选择库区类型" clearable size="small">
+      <el-form-item label="波次号" prop="batchNo">
+        <el-input
+          v-model="queryParams.batchNo"
+          placeholder="请输入波次号"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="订单号" prop="orderNo">
+        <el-input
+          v-model="queryParams.orderNo"
+          placeholder="请输入订单号"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="任务单号" prop="taskNo">
+        <el-input
+          v-model="queryParams.taskNo"
+          placeholder="请输入任务单号"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="商品编码" prop="goodNo">
+        <el-input
+          v-model="queryParams.goodNo"
+          placeholder="请输入商品编码"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="商品名称" prop="goodName">
+        <el-input
+          v-model="queryParams.goodName"
+          placeholder="请输入商品名称"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="商品类型" prop="goodType">
+        <el-select v-model="queryParams.goodType" placeholder="请选择商品类型" clearable size="small">
           <el-option
-            v-for="dict in storageTypeOptions"
+            v-for="dict in goodTypeOptions"
             :key="dict.dictValue"
             :label="dict.dictLabel"
             :value="dict.dictValue"
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="库区状态" prop="storageStatus">
-        <el-select v-model="queryParams.storageStatus" placeholder="请选择库区状态" clearable size="small">
+      <el-form-item label="库存类型" prop="inventoryType">
+        <el-select v-model="queryParams.inventoryType" placeholder="请选择库存类型" clearable size="small">
           <el-option
-            v-for="dict in storageStatusOptions"
+            v-for="dict in inventoryTypeOptions"
             :key="dict.dictValue"
             :label="dict.dictLabel"
             :value="dict.dictValue"
           />
         </el-select>
       </el-form-item>
+      <el-form-item label="订单防重码" prop="uuid">
+        <el-input
+          v-model="queryParams.uuid"
+          placeholder="请输入订单防重码"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+<!--      <el-form-item label="失效日期" prop="expiryTime">-->
+<!--        <el-date-picker clearable size="small"-->
+<!--          v-model="queryParams.expiryTime"-->
+<!--          type="date"-->
+<!--          value-format="yyyy-MM-dd"-->
+<!--          placeholder="选择失效日期">-->
+<!--        </el-date-picker>-->
+<!--      </el-form-item>-->
+      <el-form-item label="有效日期范围" prop="timeRange">
+        <el-date-picker type="daterange" v-model="form.timeRange" format="yyyy-MM-dd"
+                        value-format="yyyy-MM-dd" :style="{width: '100%'}" start-placeholder="开始日期"
+                        end-placeholder="结束日期" range-separator="至" clearable>
+        </el-date-picker>
+      </el-form-item>
+
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -53,7 +122,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['system:storageMenu:add']"
+          v-hasPermi="['system:goodMenu:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -64,7 +133,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['system:storageMenu:edit']"
+          v-hasPermi="['system:goodMenu:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -75,7 +144,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['system:storageMenu:remove']"
+          v-hasPermi="['system:goodMenu:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -85,20 +154,40 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['system:storageMenu:export']"
+          v-hasPermi="['system:goodMenu:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="storageMenuList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="goodMenuList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-<!--      <el-table-column label="自增id" align="center" prop="id" />-->
+<!--      <el-table-column label="id" align="center" prop="id" />-->
       <el-table-column label="id" align="center" type="index" width="50" />
       <el-table-column label="库区编号" align="center" prop="storageNo" />
-      <el-table-column label="库区名称" align="center" prop="storageName" />
-      <el-table-column label="库区类型" align="center" prop="storageType" :formatter="storageTypeFormat" />
-      <el-table-column label="库区状态" align="center" prop="storageStatus" :formatter="storageStatusFormat" />
+      <el-table-column label="库位编号" align="center" prop="shelfNo" />
+      <el-table-column label="波次号" align="center" prop="batchNo" />
+      <el-table-column label="订单号" align="center" prop="orderNo" />
+      <el-table-column label="商品编码" align="center" prop="goodNo" />
+      <el-table-column label="商品名称" align="center" prop="goodName" />
+      <el-table-column label="货架位置" align="center" prop="shelfPosition" />
+      <el-table-column label="商品类型" align="center" prop="goodType" :formatter="goodTypeFormat" />
+      <el-table-column label="库存总数" align="center" prop="inventoryNum" />
+      <el-table-column label="残次数量" align="center" prop="defectNum" />
+      <el-table-column label="冻结数量" align="center" prop="frozenNum" />
+      <el-table-column label="库存类型" align="center" prop="inventoryType" :formatter="inventoryTypeFormat" />
+      <el-table-column label="订单防重码" align="center" prop="uuid" />
+      <el-table-column label="生产日期" align="center" prop="productTime" width="180">
+        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.productTime, '{y}-{m}-{d}') }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="失效日期" align="center" prop="expiryTime" width="180">
+        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.expiryTime, '{y}-{m}-{d}') }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="任务单号" align="center" prop="taskNo" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -106,14 +195,14 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['system:storageMenu:edit']"
+            v-hasPermi="['system:goodMenu:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['system:storageMenu:remove']"
+            v-hasPermi="['system:goodMenu:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -127,34 +216,80 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改库区管理对话框 -->
+    <!-- 添加或修改商品管理对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="库区编号" prop="storageNo">
           <el-input v-model="form.storageNo" placeholder="请输入库区编号" />
         </el-form-item>
-        <el-form-item label="库区名称" prop="storageName">
-          <el-input v-model="form.storageName" placeholder="请输入库区名称" />
+        <el-form-item label="库位编号" prop="shelfNo">
+          <el-input v-model="form.shelfNo" placeholder="请输入库位编号" />
         </el-form-item>
-        <el-form-item label="库区类型" prop="storageType">
-          <el-select v-model="form.storageType" placeholder="请选择库区类型">
+        <el-form-item label="波次号" prop="batchNo">
+          <el-input v-model="form.batchNo" placeholder="请输入波次号" />
+        </el-form-item>
+        <el-form-item label="订单号" prop="orderNo">
+          <el-input v-model="form.orderNo" placeholder="请输入订单号" />
+        </el-form-item>
+        <el-form-item label="商品编码" prop="goodNo">
+          <el-input v-model="form.goodNo" placeholder="请输入商品编码" />
+        </el-form-item>
+        <el-form-item label="商品名称" prop="goodName">
+          <el-input v-model="form.goodName" placeholder="请输入商品名称" />
+        </el-form-item>
+        <el-form-item label="货架位置" prop="shelfPosition">
+          <el-input v-model="form.shelfPosition" placeholder="请输入货架位置" />
+        </el-form-item>
+        <el-form-item label="商品类型" prop="goodType">
+          <el-select v-model="form.goodType" placeholder="请选择商品类型">
             <el-option
-              v-for="dict in storageTypeOptions"
+              v-for="dict in goodTypeOptions"
               :key="dict.dictValue"
               :label="dict.dictLabel"
               :value="dict.dictValue"
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="库区状态" prop="storageStatus">
-          <el-select v-model="form.storageStatus" placeholder="请选择库区状态">
+        <el-form-item label="库存总数" prop="inventoryNum">
+          <el-input v-model="form.inventoryNum" placeholder="请输入库存总数" />
+        </el-form-item>
+        <el-form-item label="残次数量" prop="defectNum">
+          <el-input v-model="form.defectNum" placeholder="请输入残次数量" />
+        </el-form-item>
+        <el-form-item label="冻结数量" prop="frozenNum">
+          <el-input v-model="form.frozenNum" placeholder="请输入冻结数量" />
+        </el-form-item>
+        <el-form-item label="库存类型" prop="inventoryType">
+          <el-select v-model="form.inventoryType" placeholder="请选择库存类型">
             <el-option
-              v-for="dict in storageStatusOptions"
+              v-for="dict in inventoryTypeOptions"
               :key="dict.dictValue"
               :label="dict.dictLabel"
-              :value="parseInt(dict.dictValue)"
+              :value="dict.dictValue"
             ></el-option>
           </el-select>
+        </el-form-item>
+        <el-form-item label="订单防重码" prop="uuid">
+          <el-input v-model="form.uuid" placeholder="请输入订单防重码" />
+        </el-form-item>
+        <el-form-item label="生产日期" prop="productTime">
+          <el-date-picker clearable size="small"
+            v-model="form.productTime"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="选择生产日期">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="失效日期" prop="expiryTime">
+          <el-date-picker clearable size="small"
+            v-model="form.expiryTime"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="选择失效日期">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="任务单号" prop="taskNo">
+          <el-input v-model="form.taskNo" placeholder="请输入任务单号" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -166,10 +301,10 @@
 </template>
 
 <script>
-import { listStorageMenu, getStorageMenu, delStorageMenu, addStorageMenu, updateStorageMenu, exportStorageMenu } from "@/api/system/storageMenu";
+import { listGoodMenu, getGoodMenu, delGoodMenu, addGoodMenu, updateGoodMenu, exportGoodMenu } from "@/api/system/goodMenu";
 
 export default {
-  name: "StorageMenu",
+  name: "GoodMenu",
   components: {
   },
   data() {
@@ -186,24 +321,32 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 库区管理表格数据
-      storageMenuList: [],
+      // 商品管理表格数据
+      goodMenuList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
       open: false,
-      // 库区类型字典
-      storageTypeOptions: [],
-      // 库区状态字典
-      storageStatusOptions: [],
+      // 商品类型字典
+      goodTypeOptions: [],
+      // 库存类型字典
+      inventoryTypeOptions: [],
       // 查询参数
       queryParams: {
         pageNum: 1,
         pageSize: 10,
         storageNo: null,
-        storageName: null,
-        storageType: null,
-        storageStatus: null,
+        shelfNo: null,
+        batchNo: null,
+        orderNo: null,
+        goodNo: null,
+        goodName: null,
+        goodType: null,
+        inventoryType: null,
+        uuid: null,
+        expiryTime: null,
+        timeRange: null,
+        taskNo: null
       },
       // 表单参数
       form: {},
@@ -212,44 +355,68 @@ export default {
         storageNo: [
           { required: true, message: "库区编号不能为空", trigger: "blur" }
         ],
-        storageName: [
-          { required: true, message: "库区名称不能为空", trigger: "blur" }
+        shelfNo: [
+          { required: true, message: "库位编号不能为空", trigger: "blur" }
         ],
-        storageType: [
-          { required: true, message: "库区类型不能为空", trigger: "change" }
+        batchNo: [
+          { required: true, message: "波次号不能为空", trigger: "blur" }
         ],
-        storageStatus: [
-          { required: true, message: "库区状态不能为空", trigger: "change" }
+        orderNo: [
+          { required: true, message: "订单号不能为空", trigger: "blur" }
         ],
+        goodNo: [
+          { required: true, message: "商品编码不能为空", trigger: "blur" }
+        ],
+        goodName: [
+          { required: true, message: "商品名称不能为空", trigger: "blur" }
+        ],
+        shelfPosition: [
+          { required: true, message: "货架位置不能为空", trigger: "blur" }
+        ],
+        goodType: [
+          { required: true, message: "商品类型不能为空", trigger: "change" }
+        ],
+        inventoryType: [
+          { required: true, message: "库存类型不能为空", trigger: "change" }
+        ],
+        uuid: [
+          { required: true, message: "订单防重码不能为空", trigger: "blur" }
+        ],
+        expiryTime: [
+          { required: true, message: "失效日期不能为空", trigger: "blur" }
+        ],
+        taskNo: [
+          { required: true, message: "任务单号不能为空", trigger: "blur" }
+        ]
       }
     };
   },
   created() {
     this.getList();
-    this.getDicts("storage_type").then(response => {
-      this.storageTypeOptions = response.data;
+    this.getDicts("good_type").then(response => {
+      this.goodTypeOptions = response.data;
     });
-    this.getDicts("status").then(response => {
-      this.storageStatusOptions = response.data;
+    this.getDicts("storage_type").then(response => {
+      this.inventoryTypeOptions = response.data;
     });
   },
   methods: {
-    /** 查询库区管理列表 */
+    /** 查询商品管理列表 */
     getList() {
       this.loading = true;
-      listStorageMenu(this.queryParams).then(response => {
-        this.storageMenuList = response.rows;
+      listGoodMenu(this.queryParams).then(response => {
+        this.goodMenuList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
     },
-    // 库区类型字典翻译
-    storageTypeFormat(row, column) {
-      return this.selectDictLabel(this.storageTypeOptions, row.storageType);
+    // 商品类型字典翻译
+    goodTypeFormat(row, column) {
+      return this.selectDictLabel(this.goodTypeOptions, row.goodType);
     },
-    // 库区状态字典翻译
-    storageStatusFormat(row, column) {
-      return this.selectDictLabel(this.storageStatusOptions, row.storageStatus);
+    // 库存类型字典翻译
+    inventoryTypeFormat(row, column) {
+      return this.selectDictLabel(this.inventoryTypeOptions, row.inventoryType);
     },
     // 取消按钮
     cancel() {
@@ -261,15 +428,27 @@ export default {
       this.form = {
         id: null,
         storageNo: null,
-        storageName: null,
-        storageType: null,
-        storageStatus: null,
+        shelfNo: null,
+        batchNo: null,
+        orderNo: null,
+        goodNo: null,
+        goodName: null,
+        shelfPosition: null,
+        goodType: null,
+        inventoryNum: null,
+        defectNum: null,
+        frozenNum: null,
+        inventoryType: null,
+        uuid: null,
+        productTime: null,
+        expiryTime: null,
         createTime: null,
         createUser: null,
         updateTime: null,
         updateUser: null,
         yn: null,
-        ts: null
+        ts: null,
+        taskNo: null
       };
       this.resetForm("form");
     },
@@ -293,16 +472,16 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加库区管理";
+      this.title = "添加商品管理";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids
-      getStorageMenu(id).then(response => {
+      getGoodMenu(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改库区管理";
+        this.title = "修改商品管理";
       });
     },
     /** 提交按钮 */
@@ -310,13 +489,13 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.id != null) {
-            updateStorageMenu(this.form).then(response => {
+            updateGoodMenu(this.form).then(response => {
               this.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addStorageMenu(this.form).then(response => {
+            addGoodMenu(this.form).then(response => {
               this.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -328,12 +507,12 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$confirm('是否确认删除库区管理编号为"' + ids + '"的数据项?', "警告", {
+      this.$confirm('是否确认删除商品管理编号为"' + ids + '"的数据项?', "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
         }).then(function() {
-          return delStorageMenu(ids);
+          return delGoodMenu(ids);
         }).then(() => {
           this.getList();
           this.msgSuccess("删除成功");
@@ -342,12 +521,12 @@ export default {
     /** 导出按钮操作 */
     handleExport() {
       const queryParams = this.queryParams;
-      this.$confirm('是否确认导出所有库区管理数据项?', "警告", {
+      this.$confirm('是否确认导出所有商品管理数据项?', "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
         }).then(function() {
-          return exportStorageMenu(queryParams);
+          return exportGoodMenu(queryParams);
         }).then(response => {
           this.download(response.msg);
         })

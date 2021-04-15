@@ -35,7 +35,7 @@ export default {
   },
   data() {
     return {
-      title: '若依管理系统',
+      title: '玄武仓储管理系统',
       logo: logoImg
     }
   }
@@ -66,8 +66,8 @@ export default {
     width: 100%;
 
     & .sidebar-logo {
-      width: 32px;
-      height: 32px;
+      width: 50px;
+      height: 19px;
       vertical-align: middle;
       margin-right: 12px;
     }

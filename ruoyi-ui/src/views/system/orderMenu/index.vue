@@ -95,6 +95,51 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
+      <el-form-item label="拣货数量" prop="pickingQty">
+        <el-input
+          v-model="queryParams.pickingQty"
+          placeholder="请输入拣货数量"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="出库数量" prop="outboundQty">
+        <el-input
+          v-model="queryParams.outboundQty"
+          placeholder="请输入出库数量"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="未复核数量" prop="uncheckQty">
+        <el-input
+          v-model="queryParams.uncheckQty"
+          placeholder="请输入未复核数量"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="复核数量" prop="checkQty">
+        <el-input
+          v-model="queryParams.checkQty"
+          placeholder="请输入复核数量"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="任务单号" prop="taskNo">
+        <el-input
+          v-model="queryParams.taskNo"
+          placeholder="请输入任务单号"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
       <el-form-item label="订单优先级" prop="orderPriority">
         <el-select v-model="queryParams.orderPriority" placeholder="请选择订单优先级" clearable size="small">
           <el-option
@@ -167,8 +212,8 @@
 
     <el-table v-loading="loading" :data="orderMenuList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
+<!--      <el-table-column label="id" align="center" prop="id" />-->
       <el-table-column label="id" align="center" type="index" width="50" />
-      <!--      <el-table-column label="自增主键" align="center" prop="id" />-->
       <el-table-column label="波次号" align="center" prop="batchNo" />
       <el-table-column label="订单号" align="center" prop="orderNo" />
       <el-table-column label="订单类型" align="center" prop="orderType" :formatter="orderTypeFormat" />
@@ -186,6 +231,11 @@
       <el-table-column label="交接部门名称" align="center" prop="hodeptName" />
       <el-table-column label="交接部门编码" align="center" prop="hodeptNo" />
       <el-table-column label="交接人姓名" align="center" prop="houserName" />
+      <el-table-column label="拣货数量" align="center" prop="pickingQty" />
+      <el-table-column label="出库数量" align="center" prop="outboundQty" />
+      <el-table-column label="未复核数量" align="center" prop="uncheckQty" />
+      <el-table-column label="复核数量" align="center" prop="checkQty" />
+      <el-table-column label="任务单号" align="center" prop="taskNo" />
       <el-table-column label="订单优先级" align="center" prop="orderPriority" :formatter="orderPriorityFormat" />
       <el-table-column label="计划出库时间" align="center" prop="planDeliveryTime" width="180">
         <template slot-scope="scope">
@@ -302,6 +352,21 @@
         <el-form-item label="交接人姓名" prop="houserName">
           <el-input v-model="form.houserName" placeholder="请输入交接人姓名" />
         </el-form-item>
+        <el-form-item label="拣货数量" prop="pickingQty">
+          <el-input v-model="form.pickingQty" placeholder="请输入拣货数量" />
+        </el-form-item>
+        <el-form-item label="出库数量" prop="outboundQty">
+          <el-input v-model="form.outboundQty" placeholder="请输入出库数量" />
+        </el-form-item>
+        <el-form-item label="未复核数量" prop="uncheckQty">
+          <el-input v-model="form.uncheckQty" placeholder="请输入未复核数量" />
+        </el-form-item>
+        <el-form-item label="复核数量" prop="checkQty">
+          <el-input v-model="form.checkQty" placeholder="请输入复核数量" />
+        </el-form-item>
+        <el-form-item label="任务单号" prop="taskNo">
+          <el-input v-model="form.taskNo" placeholder="请输入任务单号" />
+        </el-form-item>
         <el-form-item label="订单优先级" prop="orderPriority">
           <el-select v-model="form.orderPriority" placeholder="请选择订单优先级">
             <el-option
@@ -380,6 +445,11 @@ export default {
         custName: null,
         uuid: null,
         hodeptName: null,
+        pickingQty: null,
+        outboundQty: null,
+        uncheckQty: null,
+        checkQty: null,
+        taskNo: null,
         orderPriority: null,
         planDeliveryTime: null
       },
@@ -431,6 +501,9 @@ export default {
         ],
         houserName: [
           { required: true, message: "交接人姓名不能为空", trigger: "blur" }
+        ],
+        taskNo: [
+          { required: true, message: "任务单号不能为空", trigger: "blur" }
         ],
         orderPriority: [
           { required: true, message: "订单优先级不能为空", trigger: "change" }
@@ -516,11 +589,16 @@ export default {
         hodeptNo: null,
         houserName: null,
         createTime: null,
+        pickingQty: null,
         createUser: null,
+        outboundQty: null,
         updateTime: null,
         updateUser: null,
+        uncheckQty: null,
         yn: null,
+        checkQty: null,
         ts: null,
+        taskNo: null,
         orderPriority: null,
         planDeliveryTime: null
       };

@@ -11,7 +11,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 商品管理对象 good_info
  * 
  * @author HelloWorld
- * @date 2021-03-23
+ * @date 2021-03-28
  */
 public class GoodInfo extends BaseEntity
 {
@@ -47,6 +47,10 @@ public class GoodInfo extends BaseEntity
     /** 货架位置 */
     @Excel(name = "货架位置")
     private String shelfPosition;
+
+    /** 商品类型 */
+    @Excel(name = "商品类型")
+    private String goodType;
 
     /** 库存总数 */
     @Excel(name = "库存总数")
@@ -89,6 +93,10 @@ public class GoodInfo extends BaseEntity
 
     /** 时间戳 */
     private Date ts;
+
+    /** 任务单号 */
+    @Excel(name = "任务单号")
+    private String taskNo;
 
     public void setId(Long id) 
     {
@@ -161,6 +169,15 @@ public class GoodInfo extends BaseEntity
     public String getShelfPosition() 
     {
         return shelfPosition;
+    }
+    public void setGoodType(String goodType) 
+    {
+        this.goodType = goodType;
+    }
+
+    public String getGoodType() 
+    {
+        return goodType;
     }
     public void setInventoryNum(Long inventoryNum) 
     {
@@ -261,6 +278,15 @@ public class GoodInfo extends BaseEntity
     {
         return ts;
     }
+    public void setTaskNo(String taskNo) 
+    {
+        this.taskNo = taskNo;
+    }
+
+    public String getTaskNo() 
+    {
+        return taskNo;
+    }
 
     @Override
     public String toString() {
@@ -273,6 +299,7 @@ public class GoodInfo extends BaseEntity
             .append("goodNo", getGoodNo())
             .append("goodName", getGoodName())
             .append("shelfPosition", getShelfPosition())
+            .append("goodType", getGoodType())
             .append("inventoryNum", getInventoryNum())
             .append("defectNum", getDefectNum())
             .append("frozenNum", getFrozenNum())
@@ -286,6 +313,7 @@ public class GoodInfo extends BaseEntity
             .append("updateUser", getUpdateUser())
             .append("yn", getYn())
             .append("ts", getTs())
+            .append("taskNo", getTaskNo())
             .toString();
     }
 }

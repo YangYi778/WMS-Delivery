@@ -24,17 +24,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="hodeptNo"    column="hodept_no"    />
         <result property="houserName"    column="houser_name"    />
         <result property="createTime"    column="create_time"    />
+        <result property="pickingQty"    column="picking_qty"    />
         <result property="createUser"    column="create_user"    />
+        <result property="outboundQty"    column="outbound_qty"    />
         <result property="updateTime"    column="update_time"    />
         <result property="updateUser"    column="update_user"    />
+        <result property="uncheckQty"    column="uncheck_qty"    />
         <result property="yn"    column="yn"    />
+        <result property="checkQty"    column="check_qty"    />
         <result property="ts"    column="ts"    />
+        <result property="taskNo"    column="task_no"    />
         <result property="orderPriority"    column="order_priority"    />
         <result property="planDeliveryTime"    column="plan_delivery_time"    />
     </resultMap>
 
     <sql id="selectOrderInfoVo">
-        select id, batch_no, order_no, order_type, order_status, order_origin, order_level, cust_no, cust_name, total_volume, total_weight, uuid, rece_name, rece_phone, rece_address, hodept_name, hodept_no, houser_name, create_time, create_user, update_time, update_user, yn, ts, order_priority, plan_delivery_time from order_info
+        select id, batch_no, order_no, order_type, order_status, order_origin, order_level, cust_no, cust_name, total_volume, total_weight, uuid, rece_name, rece_phone, rece_address, hodept_name, hodept_no, houser_name, create_time, picking_qty, create_user, outbound_qty, update_time, update_user, uncheck_qty, yn, check_qty, ts, task_no, order_priority, plan_delivery_time from order_info
     </sql>
 
     <select id="selectOrderInfoList" parameterType="OrderInfo" resultMap="OrderInfoResult">
@@ -50,6 +55,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="custName != null  and custName != ''"> and cust_name like concat('%', #{custName}, '%')</if>
             <if test="uuid != null  and uuid != ''"> and uuid = #{uuid}</if>
             <if test="hodeptName != null  and hodeptName != ''"> and hodept_name like concat('%', #{hodeptName}, '%')</if>
+            <if test="pickingQty != null "> and picking_qty = #{pickingQty}</if>
+            <if test="outboundQty != null "> and outbound_qty = #{outboundQty}</if>
+            <if test="uncheckQty != null "> and uncheck_qty = #{uncheckQty}</if>
+            <if test="checkQty != null "> and check_qty = #{checkQty}</if>
+            <if test="taskNo != null  and taskNo != ''"> and task_no = #{taskNo}</if>
             <if test="orderPriority != null "> and order_priority = #{orderPriority}</if>
             <if test="planDeliveryTime != null "> and plan_delivery_time = #{planDeliveryTime}</if>
         </where>
@@ -81,11 +91,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="hodeptNo != null and hodeptNo != ''">hodept_no,</if>
             <if test="houserName != null and houserName != ''">houser_name,</if>
             <if test="createTime != null">create_time,</if>
-            <if test="createUser != null and createUser != ''">create_user,</if>
+            <if test="pickingQty != null">picking_qty,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="outboundQty != null">outbound_qty,</if>
             <if test="updateTime != null">update_time,</if>
-            <if test="updateUser != null and updateUser != ''">update_user,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="uncheckQty != null">uncheck_qty,</if>
             <if test="yn != null">yn,</if>
+            <if test="checkQty != null">check_qty,</if>
             <if test="ts != null">ts,</if>
+            <if test="taskNo != null and taskNo != ''">task_no,</if>
             <if test="orderPriority != null">order_priority,</if>
             <if test="planDeliveryTime != null">plan_delivery_time,</if>
          </trim>
@@ -108,11 +123,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="hodeptNo != null and hodeptNo != ''">#{hodeptNo},</if>
             <if test="houserName != null and houserName != ''">#{houserName},</if>
             <if test="createTime != null">#{createTime},</if>
-            <if test="createUser != null and createUser != ''">#{createUser},</if>
+            <if test="pickingQty != null">#{pickingQty},</if>
+            <if test="createUser != null">#{createUser},</if>
+            <if test="outboundQty != null">#{outboundQty},</if>
             <if test="updateTime != null">#{updateTime},</if>
-            <if test="updateUser != null and updateUser != ''">#{updateUser},</if>
+            <if test="updateUser != null">#{updateUser},</if>
+            <if test="uncheckQty != null">#{uncheckQty},</if>
             <if test="yn != null">#{yn},</if>
+            <if test="checkQty != null">#{checkQty},</if>
             <if test="ts != null">#{ts},</if>
+            <if test="taskNo != null and taskNo != ''">#{taskNo},</if>
             <if test="orderPriority != null">#{orderPriority},</if>
             <if test="planDeliveryTime != null">#{planDeliveryTime},</if>
          </trim>
@@ -139,11 +159,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="hodeptNo != null and hodeptNo != ''">hodept_no = #{hodeptNo},</if>
             <if test="houserName != null and houserName != ''">houser_name = #{houserName},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
-            <if test="createUser != null and createUser != ''">create_user = #{createUser},</if>
+            <if test="pickingQty != null">picking_qty = #{pickingQty},</if>
+            <if test="createUser != null">create_user = #{createUser},</if>
+            <if test="outboundQty != null">outbound_qty = #{outboundQty},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
-            <if test="updateUser != null and updateUser != ''">update_user = #{updateUser},</if>
+            <if test="updateUser != null">update_user = #{updateUser},</if>
+            <if test="uncheckQty != null">uncheck_qty = #{uncheckQty},</if>
             <if test="yn != null">yn = #{yn},</if>
+            <if test="checkQty != null">check_qty = #{checkQty},</if>
             <if test="ts != null">ts = #{ts},</if>
+            <if test="taskNo != null and taskNo != ''">task_no = #{taskNo},</if>
             <if test="orderPriority != null">order_priority = #{orderPriority},</if>
             <if test="planDeliveryTime != null">plan_delivery_time = #{planDeliveryTime},</if>
         </trim>
@@ -160,4 +185,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
+    <update id="orderConfirm" parameterType="String">
+        update order_info set order_status = 201 where order_no in
+        <foreach collection="array" item="order" open="(" separator="," close=")">
+            #{order}
+        </foreach>
+    </update>
+
+    <update id="orderBatchGenerate">
+        update order_info set order_status = 202, batch_no = #{batchNo} where order_no in
+        <foreach collection="orders" item="order" open="(" separator="," close=")">
+            #{order}
+        </foreach>
+    </update>
 </mapper>

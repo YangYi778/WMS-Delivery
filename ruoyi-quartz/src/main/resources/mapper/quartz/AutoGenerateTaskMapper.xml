@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.quartz.mapper.AutoGenerateTaskMapper">
+
+
+    <select id="getConfirmOrderQty" resultType="java.lang.String">
+        select order_no from order_info where order_status = 201 and yn = 1;
+    </select>
+
+    <select id="getConfirmGoodQty" resultType="java.lang.Integer">
+        select sum(outbound_qty) from order_info where order_status = 201 and yn = 1;
+    </select>
+
+    <select id="getMinuteRangeOrderQty" resultType="java.lang.String" parameterType="java.lang.Integer">
+        select order_no from order_info where DATE_SUB(CURDATE(), INTERVAL #{minute} MINUTE) >= date(update_time) and order_status = 201 and yn = 1;
+    </select>
+
+    <update id="updateBatchNo">
+        <foreach collection="orderNoList" item="item" index="index" open="" close="" separator=";">
+            update order_info
+            <set>
+               batch_no = #{batchNo}, order_status = 202
+            </set>
+            where order_no = #{item, jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+
+</mapper>

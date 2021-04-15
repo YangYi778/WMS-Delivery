@@ -53,7 +53,7 @@ public class CaptchaController
         BufferedImage image = null;
 
         // 生成验证码
-        if ("math".equals(captchaType))
+            if ("math".equals(captchaType))
         {
             String capText = captchaProducerMath.createText();
             capStr = capText.substring(0, capText.lastIndexOf("@"));

@@ -7,7 +7,7 @@ import com.ruoyi.system.domain.GoodInfo;
  * 商品管理Mapper接口
  * 
  * @author HelloWorld
- * @date 2021-03-23
+ * @date 2021-03-28
  */
 public interface GoodInfoMapper 
 {

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.IndexInfoMapper">
+
+    <resultMap id="orderStatus" type="java.util.Map">
+        <result property="key" column="order_status" javaType="java.lang.Integer" />
+        <result property="value" column="order_num" javaType="java.lang.Integer"/>
+    </resultMap>
+
+    <select id="getOrdersGroupByStatus" resultMap="orderStatus">
+        select order_status, count(order_no) order_num from order_info where create_time >= DATE_SUB(CURDATE(),INTERVAL 5 DAY) group by order_status
+    </select>
+
+    <select id="getGoodTypeQty" resultType="java.lang.Integer">
+        select count(good_type) from good_info
+    </select>
+
+    <select id="getOutboundGoodQty" resultType="java.lang.Integer">
+        select sum(outbound_qty) from order_info where order_type = 2 and order_status = 404
+    </select>
+
+    <select id="getExpiryGoodQty" resultType="java.lang.Integer">
+        select count(good_no) from good_info where expiry_time >= DATE_SUB(CURDATE(),INTERVAL 30 DAY)
+    </select>
+
+    <select id="getNewInnerOrderQty" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        select count(order_no) from order_info where create_time >= DATE_SUB(CURDATE(),INTERVAL #{day} DAY) and order_type = 1
+    </select>
+
+    <select id="getFinInnerOrderQty" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        select count(order_no) from order_info where create_time >= DATE_SUB(CURDATE(),INTERVAL #{day} DAY) and order_type = 1 and order_status = 303
+    </select>
+
+    <select id="getNewOutboundOrderQty" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        select count(order_no) from order_info where create_time >= DATE_SUB(CURDATE(),INTERVAL #{day} DAY) and order_type = 2
+    </select>
+
+    <select id="getFinOutboundOrderQty" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        select count(order_no) from order_info where create_time >= DATE_SUB(CURDATE(),INTERVAL #{day} DAY) and order_type = 2 and order_status = 404
+    </select>
+</mapper>

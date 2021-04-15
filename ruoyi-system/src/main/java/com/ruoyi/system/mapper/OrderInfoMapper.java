@@ -2,13 +2,16 @@ package com.ruoyi.system.mapper;
 
 import java.util.List;
 import com.ruoyi.system.domain.OrderInfo;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 /**
  * 订单管理Mapper接口
  * 
- * @author ruoyi
- * @date 2021-03-22
+ * @author HelloWorld
+ * @date 2021-03-25
  */
+@Repository
 public interface OrderInfoMapper 
 {
     /**
@@ -58,4 +61,15 @@ public interface OrderInfoMapper
      * @return 结果
      */
     public int deleteOrderInfoByIds(Long[] ids);
+
+    /**
+     * 批量受理订单
+     * @param orders 需要受理的数据ID
+     * @return 结果
+     */
+    public int orderConfirm(String[] orders);
+
+
+    public int orderBatchGenerate(@Param("batchNo")String batchNo, @Param("orders")String[] orders);
+
 }

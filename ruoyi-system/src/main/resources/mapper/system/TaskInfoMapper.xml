@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TaskInfoMapper">
+    
+    <resultMap type="TaskInfo" id="TaskInfoResult">
+        <result property="id"    column="id"    />
+        <result property="taskNo"    column="task_no"    />
+        <result property="taskType"    column="task_type"    />
+        <result property="taskStatus"    column="task_status"    />
+        <result property="publisherNo"    column="publisher_no"    />
+        <result property="publisherName"    column="publisher_name"    />
+        <result property="recipientNo"    column="recipient_no"    />
+        <result property="recipientName"    column="recipient_name"    />
+        <result property="taskLevel"    column="task_level"    />
+        <result property="taskDesc"    column="task_desc"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createUser"    column="create_user"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUser"    column="update_user"    />
+        <result property="yn"    column="yn"    />
+        <result property="ts"    column="ts"    />
+    </resultMap>
+
+    <sql id="selectTaskInfoVo">
+        select id, task_no, task_type, task_status, publisher_no, publisher_name, recipient_no, recipient_name, task_level, task_desc, create_time, create_user, update_time, update_user, yn, ts from task_info
+    </sql>
+
+    <select id="selectTaskInfoList" parameterType="TaskInfo" resultMap="TaskInfoResult">
+        <include refid="selectTaskInfoVo"/>
+        <where>  
+            <if test="taskNo != null  and taskNo != ''"> and task_no = #{taskNo}</if>
+            <if test="taskType != null "> and task_type = #{taskType}</if>
+            <if test="taskStatus != null "> and task_status = #{taskStatus}</if>
+            <if test="publisherNo != null  and publisherNo != ''"> and publisher_no = #{publisherNo}</if>
+            <if test="publisherName != null  and publisherName != ''"> and publisher_name like concat('%', #{publisherName}, '%')</if>
+            <if test="recipientNo != null  and recipientNo != ''"> and recipient_no = #{recipientNo}</if>
+            <if test="recipientName != null  and recipientName != ''"> and recipient_name like concat('%', #{recipientName}, '%')</if>
+            <if test="taskLevel != null "> and task_level = #{taskLevel}</if>
+            <if test="taskDesc != null  and taskDesc != ''"> and task_desc = #{taskDesc}</if>
+        </where>
+    </select>
+    
+    <select id="selectTaskInfoById" parameterType="Long" resultMap="TaskInfoResult">
+        <include refid="selectTaskInfoVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTaskInfo" parameterType="TaskInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into task_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="taskNo != null and taskNo != ''">task_no,</if>
+            <if test="taskType != null">task_type,</if>
+            <if test="taskStatus != null">task_status,</if>
+            <if test="publisherNo != null and publisherNo != ''">publisher_no,</if>
+            <if test="publisherName != null and publisherName != ''">publisher_name,</if>
+            <if test="recipientNo != null and recipientNo != ''">recipient_no,</if>
+            <if test="recipientName != null and recipientName != ''">recipient_name,</if>
+            <if test="taskLevel != null">task_level,</if>
+            <if test="taskDesc != null">task_desc,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="yn != null">yn,</if>
+            <if test="ts != null">ts,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="taskNo != null and taskNo != ''">#{taskNo},</if>
+            <if test="taskType != null">#{taskType},</if>
+            <if test="taskStatus != null">#{taskStatus},</if>
+            <if test="publisherNo != null and publisherNo != ''">#{publisherNo},</if>
+            <if test="publisherName != null and publisherName != ''">#{publisherName},</if>
+            <if test="recipientNo != null and recipientNo != ''">#{recipientNo},</if>
+            <if test="recipientName != null and recipientName != ''">#{recipientName},</if>
+            <if test="taskLevel != null">#{taskLevel},</if>
+            <if test="taskDesc != null">#{taskDesc},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createUser != null">#{createUser},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUser != null">#{updateUser},</if>
+            <if test="yn != null">#{yn},</if>
+            <if test="ts != null">#{ts},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTaskInfo" parameterType="TaskInfo">
+        update task_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="taskNo != null and taskNo != ''">task_no = #{taskNo},</if>
+            <if test="taskType != null">task_type = #{taskType},</if>
+            <if test="taskStatus != null">task_status = #{taskStatus},</if>
+            <if test="publisherNo != null and publisherNo != ''">publisher_no = #{publisherNo},</if>
+            <if test="publisherName != null and publisherName != ''">publisher_name = #{publisherName},</if>
+            <if test="recipientNo != null and recipientNo != ''">recipient_no = #{recipientNo},</if>
+            <if test="recipientName != null and recipientName != ''">recipient_name = #{recipientName},</if>
+            <if test="taskLevel != null">task_level = #{taskLevel},</if>
+            <if test="taskDesc != null">task_desc = #{taskDesc},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createUser != null">create_user = #{createUser},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUser != null">update_user = #{updateUser},</if>
+            <if test="yn != null">yn = #{yn},</if>
+            <if test="ts != null">ts = #{ts},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTaskInfoById" parameterType="Long">
+        delete from task_info where id = #{id}
+    </delete>
+
+    <delete id="deleteTaskInfoByIds" parameterType="String">
+        delete from task_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectRelatedInfoBatch" resultType="java.lang.String">
+        select batch_no from order_info where order_status = 201 and yn = 1 group by batch_no
+    </select>
+
+    <select id="selectRelatedInfoOrder" resultType="java.lang.String">
+        select order_no from order_info where order_status = 201 and batch_no = '' and yn = 1;
+    </select>
+
+    <select id="selectRelatedInfoSKU" parameterType="java.lang.String" resultType="java.lang.String">
+        select good_no from good_info where order_no in
+        <foreach collection="list" item="orderNo" open="(" separator="," close=")">
+            #{orderNo}
+        </foreach>
+    </select>
+
+
+</mapper>

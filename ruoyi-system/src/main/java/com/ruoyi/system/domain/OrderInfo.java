@@ -11,14 +11,14 @@ import com.ruoyi.common.core.domain.BaseEntity;
 /**
  * 订单管理对象 order_info
  * 
- * @author ruoyi
- * @date 2021-03-22
+ * @author HelloWorld
+ * @date 2021-03-25
  */
 public class OrderInfo extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** 自增主键 */
+    /** id */
     private Long id;
 
     /** 波次号 */
@@ -31,7 +31,7 @@ public class OrderInfo extends BaseEntity
 
     /** 订单类型 */
     @Excel(name = "订单类型")
-    private String orderType;
+    private Integer orderType;
 
     /** 订单状态 */
     @Excel(name = "订单状态")
@@ -89,17 +89,37 @@ public class OrderInfo extends BaseEntity
     @Excel(name = "交接人姓名")
     private String houserName;
 
+    /** 拣货数量 */
+    @Excel(name = "拣货数量")
+    private Integer pickingQty;
+
     /** 创建人 */
     private String createUser;
+
+    /** 出库数量 */
+    @Excel(name = "出库数量")
+    private Integer outboundQty;
 
     /** 修改人 */
     private String updateUser;
 
+    /** 未复核数量 */
+    @Excel(name = "未复核数量")
+    private Integer uncheckQty;
+
     /** 删除标记位 */
     private Integer yn;
 
+    /** 复核数量 */
+    @Excel(name = "复核数量")
+    private Integer checkQty;
+
     /** 时间戳 */
     private Date ts;
+
+    /** 任务单号 */
+    @Excel(name = "任务单号")
+    private String taskNo;
 
     /** 订单优先级 */
     @Excel(name = "订单优先级")
@@ -137,12 +157,12 @@ public class OrderInfo extends BaseEntity
     {
         return orderNo;
     }
-    public void setOrderType(String orderType) 
+    public void setOrderType(Integer orderType)
     {
         this.orderType = orderType;
     }
 
-    public String getOrderType() 
+    public Integer getOrderType()
     {
         return orderType;
     }
@@ -272,6 +292,15 @@ public class OrderInfo extends BaseEntity
     {
         return houserName;
     }
+    public void setPickingQty(Integer pickingQty) 
+    {
+        this.pickingQty = pickingQty;
+    }
+
+    public Integer getPickingQty() 
+    {
+        return pickingQty;
+    }
     public void setCreateUser(String createUser) 
     {
         this.createUser = createUser;
@@ -280,6 +309,15 @@ public class OrderInfo extends BaseEntity
     public String getCreateUser() 
     {
         return createUser;
+    }
+    public void setOutboundQty(Integer outboundQty)
+    {
+        this.outboundQty = outboundQty;
+    }
+
+    public Integer getOutboundQty()
+    {
+        return outboundQty;
     }
     public void setUpdateUser(String updateUser) 
     {
@@ -290,6 +328,15 @@ public class OrderInfo extends BaseEntity
     {
         return updateUser;
     }
+    public void setUncheckQty(Integer uncheckQty) 
+    {
+        this.uncheckQty = uncheckQty;
+    }
+
+    public Integer getUncheckQty() 
+    {
+        return uncheckQty;
+    }
     public void setYn(Integer yn) 
     {
         this.yn = yn;
@@ -299,6 +346,15 @@ public class OrderInfo extends BaseEntity
     {
         return yn;
     }
+    public void setCheckQty(Integer checkQty) 
+    {
+        this.checkQty = checkQty;
+    }
+
+    public Integer getCheckQty() 
+    {
+        return checkQty;
+    }
     public void setTs(Date ts) 
     {
         this.ts = ts;
@@ -307,6 +363,15 @@ public class OrderInfo extends BaseEntity
     public Date getTs() 
     {
         return ts;
+    }
+    public void setTaskNo(String taskNo) 
+    {
+        this.taskNo = taskNo;
+    }
+
+    public String getTaskNo() 
+    {
+        return taskNo;
     }
     public void setOrderPriority(Long orderPriority) 
     {
@@ -349,11 +414,16 @@ public class OrderInfo extends BaseEntity
             .append("hodeptNo", getHodeptNo())
             .append("houserName", getHouserName())
             .append("createTime", getCreateTime())
+            .append("pickingQty", getPickingQty())
             .append("createUser", getCreateUser())
+            .append("outboundQty", getOutboundQty())
             .append("updateTime", getUpdateTime())
             .append("updateUser", getUpdateUser())
+            .append("uncheckQty", getUncheckQty())
             .append("yn", getYn())
+            .append("checkQty", getCheckQty())
             .append("ts", getTs())
+            .append("taskNo", getTaskNo())
             .append("orderPriority", getOrderPriority())
             .append("planDeliveryTime", getPlanDeliveryTime())
             .toString();

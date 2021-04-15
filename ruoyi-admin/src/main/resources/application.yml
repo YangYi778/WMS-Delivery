@@ -119,3 +119,31 @@ xss:
   excludes: /system/notice/*
   # 匹配链接
   urlPatterns: /system/*,/monitor/*,/tool/*
+
+aspect:
+  logger:
+    spring-application-name: false
+    request-url: true
+    request-uri: false
+    class-method: true
+    request-method: false
+    request-param: false
+    request-desc: false
+    request-ip: false
+    request-user-agent: false
+    content-type: false
+    session: false
+    cookie: false
+  do-before: true
+  do-after: false
+  do-returning: true
+  do-throwing: true
+
+auto:
+  orderQty: 5
+  goodQty: 10
+  minuteRange: 10
+
+base:
+  orgNo: 1101
+  warehouseNo: 110112

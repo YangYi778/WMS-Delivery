@@ -1,7 +1,11 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.common.utils.AutoGenerate;
 import com.ruoyi.common.utils.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.OrderInfoMapper;
@@ -11,14 +15,23 @@ import com.ruoyi.system.service.IOrderInfoService;
 /**
  * 订单管理Service业务层处理
  * 
- * @author ruoyi
- * @date 2021-03-22
+ * @author HelloWorld
+ * @date 2021-03-25
  */
 @Service
-public class OrderInfoServiceImpl implements IOrderInfoService 
+public class OrderInfoServiceImpl implements IOrderInfoService
 {
+
+    private static final Logger log = LoggerFactory.getLogger(OrderInfoServiceImpl.class);
+
     @Autowired
     private OrderInfoMapper orderInfoMapper;
+
+    @Autowired
+    private AutoGenerate autoGenerate;
+
+
+
 
     /**
      * 查询订单管理
@@ -93,4 +106,21 @@ public class OrderInfoServiceImpl implements IOrderInfoService
     {
         return orderInfoMapper.deleteOrderInfoById(id);
     }
+
+    @Override
+    public int orderConfirm(String[] orders) {
+        return orderInfoMapper.orderConfirm(orders);
+    }
+
+    @Override
+    public int orderBatchGenerate(String[] orders) {
+        //1. 生成批次号
+        String batchNo = autoGenerate.generateBatchNo();
+        log.info("batchNo -->> " + batchNo);
+        //2. 绑定批次
+        return orderInfoMapper.orderBatchGenerate(batchNo, orders);
+
+    }
+
+
 }

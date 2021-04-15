@@ -6,8 +6,8 @@ import com.ruoyi.system.domain.OrderInfo;
 /**
  * 订单管理Service接口
  * 
- * @author ruoyi
- * @date 2021-03-22
+ * @author HelloWorld
+ * @date 2021-03-25
  */
 public interface IOrderInfoService 
 {
@@ -58,4 +58,17 @@ public interface IOrderInfoService
      * @return 结果
      */
     public int deleteOrderInfoById(Long id);
+
+
+    /**
+     * 订单受理
+     * @param orders 订单管理ID
+     * @return 结果
+     */
+    public int orderConfirm(String[] orders);
+
+    public int orderBatchGenerate(String[] orders);
+
+
+
 }

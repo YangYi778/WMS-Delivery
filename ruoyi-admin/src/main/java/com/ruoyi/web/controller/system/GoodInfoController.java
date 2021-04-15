@@ -24,7 +24,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * 商品管理Controller
  * 
  * @author HelloWorld
- * @date 2021-03-23
+ * @date 2021-03-28
  */
 @RestController
 @RequestMapping("/system/goodMenu")

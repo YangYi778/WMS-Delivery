@@ -12,7 +12,7 @@ import com.ruoyi.system.service.IGoodInfoService;
  * 商品管理Service业务层处理
  * 
  * @author HelloWorld
- * @date 2021-03-23
+ * @date 2021-03-28
  */
 @Service
 public class GoodInfoServiceImpl implements IGoodInfoService 

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TaskRuleMapper">
+    
+    <resultMap type="TaskRule" id="TaskRuleResult">
+        <result property="id"    column="id"    />
+        <result property="ruleCode"    column="rule_code"    />
+        <result property="generateRule"    column="generate_rule"    />
+        <result property="assignRule"    column="assign_rule"    />
+        <result property="isAuto"    column="is_auto"    />
+        <result property="status"    column="status"    />
+        <result property="description"    column="description"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createUser"    column="create_user"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUser"    column="update_user"    />
+        <result property="yn"    column="yn"    />
+        <result property="ts"    column="ts"    />
+    </resultMap>
+
+    <sql id="selectTaskRuleVo">
+        select id, rule_code, generate_rule, assign_rule, is_auto, status, description, create_time, create_user, update_time, update_user, yn, ts from task_rule
+    </sql>
+
+    <select id="selectTaskRuleList" parameterType="TaskRule" resultMap="TaskRuleResult">
+        <include refid="selectTaskRuleVo"/>
+        <where>  
+            <if test="ruleCode != null  and ruleCode != ''"> and rule_code = #{ruleCode}</if>
+            <if test="generateRule != null "> and generate_rule = #{generateRule}</if>
+            <if test="assignRule != null "> and assign_rule = #{assignRule}</if>
+            <if test="isAuto != null "> and is_auto = #{isAuto}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="description != null  and description != ''"> and description = #{description}</if>
+        </where>
+    </select>
+    
+    <select id="selectTaskRuleById" parameterType="Long" resultMap="TaskRuleResult">
+        <include refid="selectTaskRuleVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTaskRule" parameterType="TaskRule" useGeneratedKeys="true" keyProperty="id">
+        insert into task_rule
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ruleCode != null and ruleCode != ''">rule_code,</if>
+            <if test="generateRule != null">generate_rule,</if>
+            <if test="assignRule != null">assign_rule,</if>
+            <if test="isAuto != null">is_auto,</if>
+            <if test="status != null">status,</if>
+            <if test="description != null and description != ''">description,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="yn != null">yn,</if>
+            <if test="ts != null">ts,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ruleCode != null and ruleCode != ''">#{ruleCode},</if>
+            <if test="generateRule != null">#{generateRule},</if>
+            <if test="assignRule != null">#{assignRule},</if>
+            <if test="isAuto != null">#{isAuto},</if>
+            <if test="status != null">#{status},</if>
+            <if test="description != null and description != ''">#{description},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createUser != null">#{createUser},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUser != null">#{updateUser},</if>
+            <if test="yn != null">#{yn},</if>
+            <if test="ts != null">#{ts},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTaskRule" parameterType="TaskRule">
+        update task_rule
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="ruleCode != null and ruleCode != ''">rule_code = #{ruleCode},</if>
+            <if test="generateRule != null">generate_rule = #{generateRule},</if>
+            <if test="assignRule != null">assign_rule = #{assignRule},</if>
+            <if test="isAuto != null">is_auto = #{isAuto},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="description != null and description != ''">description = #{description},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createUser != null">create_user = #{createUser},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUser != null">update_user = #{updateUser},</if>
+            <if test="yn != null">yn = #{yn},</if>
+            <if test="ts != null">ts = #{ts},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTaskRuleById" parameterType="Long">
+        delete from task_rule where id = #{id}
+    </delete>
+
+    <delete id="deleteTaskRuleByIds" parameterType="String">
+        delete from task_rule where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
